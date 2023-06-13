@@ -5,6 +5,8 @@ const port =  3001; // obter a porta do Vercel ou usar a porta 3000
 
 const app = express();
 
+app.use(express.static('public'));
+
 // Configura o middleware body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -39,10 +41,7 @@ app.post('/enviar-dados', function(req, res) {
   connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, msg], function(err, result) {
     if (err) throw err;
     console.log('Dados inseridos com sucesso!');
-    res.writeHead(302, {
-      'Location': 'https://atestados.vercel.app/'
-    });
-    res.end();
+    res.send('Dados inseridos com sucesso!');
   });
 });
 
