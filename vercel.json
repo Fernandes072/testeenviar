@@ -8,11 +8,6 @@
     ],
     "routes": [
       {
-        "src": "/enviar-dados",
-        "methods": ["POST"],
-        "dest": "testelistver.js"
-      },
-      {
         "src": "/(.*)",
         "dest": "testecadver.js"
       }
