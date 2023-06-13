@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "env.js",
+        "src": "testecadver.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "env.js"
+        "dest": "testecadver.js"
       }
     ]
   }
