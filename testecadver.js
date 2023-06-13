@@ -1,12 +1,16 @@
-const http = require('http');
-const mysql = require('mysql2');
 const express = require('express');
+const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const port =  3001; // obter a porta do Vercel ou usar a porta 3000
 
 const app = express();
+
+app.use(express.static('public'));
+
+// Configura o middleware body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// criar uma conexão com o banco de dados
+// Cria a conexão com o banco de dados
 const connection = mysql.createConnection({
   host: 'containers-us-west-190.railway.app',
   user: 'root',
@@ -15,7 +19,13 @@ const connection = mysql.createConnection({
   port: '6178'
 });
 
-/// Cria uma rota para receber os dados do formulário
+// Verifica a conexão
+connection.connect(function(err) {
+  if (err) throw err;
+  console.log('Conectado ao banco de dados MySQL!');
+});
+
+// Cria uma rota para receber os dados do formulário
 app.post('/enviar-dados', function(req, res) {
   const nome = req.body.nome;
   const matricula = req.body.matricula;
@@ -36,7 +46,6 @@ app.post('/enviar-dados', function(req, res) {
 });
 
 // Inicia o servidor
-const server = app.listen(process.env.PORT || 3000, function() {
-  const port = server.address().port;
+app.listen(port, () => {
   console.log(`Servidor iniciado na porta ${port}`);
 });
