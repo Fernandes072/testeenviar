@@ -5,6 +5,8 @@ const port = process.env.PORT || 3000; // obter a porta do Vercel ou usar a port
 
 const app = express();
 
+app.use(express.static('public'));
+
 // Configura o middleware body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
