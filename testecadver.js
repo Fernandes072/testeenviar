@@ -1,11 +1,10 @@
-const express = require('express');
+const http = require('http');
 const mysql = require('mysql2');
+const express = require('express');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000; // obter a porta do Vercel ou usar a porta 3000
 
 const app = express();
-
-// Configura o middleware body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // criar uma conexão com o banco de dados
@@ -17,7 +16,7 @@ const connection = mysql.createConnection({
   port: '6178'
 });
 
-// Cria uma rota para receber os dados do formulário
+/// Cria uma rota para receber os dados do formulário
 app.post('/enviar-dados', function(req, res) {
   const nome = req.body.nome;
   const matricula = req.body.matricula;
@@ -37,7 +36,7 @@ app.post('/enviar-dados', function(req, res) {
   });
 });
 
-// iniciar o servidor
+// Inicia o servidor
 server.listen(port, () => {
-    console.log(`Servidor iniciado na porta ${port}`);
-  });
+  console.log(`Servidor iniciado na porta ${port}`);
+});
