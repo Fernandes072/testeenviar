@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "testecadver.js",
+        "src": "testelistver.js",
         "use": "@vercel/node"
       }
     ],
@@ -10,11 +10,11 @@
       {
         "src": "/enviar-dados",
         "methods": ["POST"],
-        "dest": "testecadver.js"
+        "dest": "testelistver.js"
       },
       {
         "src": "/(.*)",
-        "dest": "testecadver.js"
+        "dest": "testelistver.js"
       }
     ]
   }
