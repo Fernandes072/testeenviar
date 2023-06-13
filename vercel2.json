@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "testecadver.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/enviar-dados",
+        "methods": ["POST"],
+        "dest": "testecadver.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "testecadver.js"
+      }
+    ]
+  }
