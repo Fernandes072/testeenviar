@@ -1,16 +1,8 @@
-const express = require('express');
+const http = require('http');
 const mysql = require('mysql2');
-const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000; // obter a porta do Vercel ou usar a porta 3000
 
-const app = express();
-
-app.use(express.static('public'));
-
-// Configura o middleware body-parser
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Cria a conexão com o banco de dados
+// criar uma conexão com o banco de dados
 const connection = mysql.createConnection({
   host: 'containers-us-west-190.railway.app',
   user: 'root',
@@ -19,33 +11,31 @@ const connection = mysql.createConnection({
   port: '6178'
 });
 
-// Verifica a conexão
-connection.connect(function(err) {
-  if (err) throw err;
-  console.log('Conectado ao banco de dados MySQL!');
+// criar o servidor HTTP
+const server = http.createServer((req, res) => {
+  // habilitar o CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // executar uma consulta
+  connection.query(
+    'SELECT * FROM dados',
+    function(err, results, fields) {
+      if (err) {
+        console.error(err);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('Hello, World!');
+        return;
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(results));
+    }
+  );
 });
 
-// Cria uma rota para receber os dados do formulário
-app.post('/enviar-dados', function(req, res) {
-  const nome = req.body.nome;
-  const matricula = req.body.matricula;
-  const cpf = req.body.cpf;
-  const email = req.body.email;
-  const telefone = req.body.telefone;
-  const curso = req.body.curso;
-  const turma = req.body.turma;
-  const msg = req.body.msg;
-
-  // Insere os dados no banco de dados
-  const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, informacoes) VALUES (?,?,?,?,?,?,?,?)";
-  connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, msg], function(err, result) {
-    if (err) throw err;
-    console.log('Dados inseridos com sucesso!');
-    res.send('Dados inseridos com sucesso!');
-  });
-});
-
-// Inicia o servidor
+// iniciar o servidor
 server.listen(port, () => {
-  console.log(`Servidor iniciado na porta ${port}`);
-});
+    console.log(`Servidor iniciado na porta ${port}`);
+  });
