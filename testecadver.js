@@ -41,7 +41,7 @@ app.post('/enviar-dados', function(req, res) {
   connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, msg], function(err, result) {
     if (err) throw err;
     console.log('Dados inseridos com sucesso!');
-    res.send('Dados inseridos com sucesso!');
+    res.redirect('/');
   });
 });
 
