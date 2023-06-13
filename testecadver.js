@@ -1,8 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 3000; // obter a porta do Vercel ou usar a porta 3000
-
 const app = express();
 
 app.use(express.static('public'));
@@ -30,22 +28,18 @@ app.post('/enviar-dados', function(req, res) {
   const nome = req.body.nome;
   const matricula = req.body.matricula;
   const cpf = req.body.cpf;
-  const email = req.body.email;
-  const telefone = req.body.telefone;
-  const curso = req.body.curso;
-  const turma = req.body.turma;
-  const msg = req.body.msg;
 
   // Insere os dados no banco de dados
-  const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, informacoes) VALUES (?,?,?,?,?,?,?,?)";
-  connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, msg], function(err, result) {
+  const sql = `INSERT INTO alunos (nome, matricula, cpf) VALUES (?, ?, ?)`;
+  connection.query(sql, [nome, matricula, cpf], function(err, result) {
     if (err) throw err;
     console.log('Dados inseridos com sucesso!');
-    res.redirect('/');
+    res.send('Dados inseridos com sucesso!');
   });
 });
 
 // Inicia o servidor
-app.listen(port, function() {
-    console.log(`Servidor iniciado na porta ${port}`);
-  });
+const server = app.listen(process.env.PORT || 3000, function() {
+  const port = server.address().port;
+  console.log(`Servidor iniciado na porta ${port}`);
+});
