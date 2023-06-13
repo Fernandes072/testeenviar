@@ -2,7 +2,6 @@ const http = require('http');
 const mysql = require('mysql2');
 const express = require('express');
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 3000; // obter a porta do Vercel ou usar a porta 3000
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +36,7 @@ app.post('/enviar-dados', function(req, res) {
 });
 
 // Inicia o servidor
-server.listen(port, () => {
+const server = app.listen(process.env.PORT || 3000, function() {
+  const port = server.address().port;
   console.log(`Servidor iniciado na porta ${port}`);
 });
