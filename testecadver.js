@@ -10,11 +10,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Cria a conexão com o banco de dados
 const connection = mysql.createConnection({
-  host: 'containers-us-west-190.railway.app',
+  host: 'containers-us-west-57.railway.app',
   user: 'root',
-  password: 'uF1YkyevPV5usJbw8iYn',
+  password: '4FBWQChE2RZHEClQNdjS',
   database: 'railway',
-  port: '6178'
+  port: '8053'
 });
 
 // Verifica a conexão
