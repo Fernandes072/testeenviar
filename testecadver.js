@@ -32,19 +32,6 @@ const connection = mysql.createConnection({
   port: '8053'
 });
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb){
-      cb(null, 'Arquivos/');
-  },
-  filename: function(req, file, cb){
-      nomearquivo = file.originalname;
-      nomearquivocompleto = file.originalname + Date.now() + path.extname(file.originalname);
-      cb(null, nomearquivocompleto);
-  }
-});
-
-const upload = multer({storage});
-
 // Verifica a conexão
 connection.connect(function(err) {
   if (err) throw err;
@@ -52,7 +39,7 @@ connection.connect(function(err) {
 });
 
 // Cria uma rota para receber os dados do formulário
-app.post('/enviar-dados', upload.single('arquivo'),function(req, res) {
+app.post('/enviar-dados',function(req, res) {
   const nome = req.body.nome;
   const matricula = req.body.matricula;
   const cpf = req.body.cpf;
