@@ -66,9 +66,8 @@ app.post('/enviar-dados', function(req, res) {
     .then(() => console.log('Email enviado com sucesso'))
     .catch((err) => console.log(err));
   }
-
   data = new Date();
-  const options = { timeZone: 'GMT-3', timeZoneName: 'short' };
+  const options = { timeZone: 'America/Sao_Paulo', timeZoneName: 'short' };
   const horario = data.toLocaleString('pt-BR', options);
 
   // Insere os dados no banco de dados
