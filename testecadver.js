@@ -68,7 +68,8 @@ app.post('/enviar-dados', function(req, res) {
   }
 
   data = new Date();
-  const horario = data.toLocaleString();
+  const options = { timeZone: 'GMT-3', timeZoneName: 'short' };
+  const horario = data.toLocaleString('pt-BR', options);
 
   // Insere os dados no banco de dados
   const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, horario, informacoes, arquivo) VALUES (?,?,?,?,?,?,?,?,?,?)";
