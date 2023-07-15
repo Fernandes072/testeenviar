@@ -1,24 +1,9 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
-const multer = require('multer');
-const path = require('path');
-const nodemailer = require('nodemailer');
-
 const port =  3001; // obter a porta do Vercel ou usar a porta 3000
 
-const transport = nodemailer.createTransport({
-  host: 'smtp.office365.com',
-  port: 587,
-  secure: false,
-  auth: {
-      user: 'jfernandesbot@hotmail.com',
-      pass: '28092004bot',
-  }
-});
-
 const app = express();
-let nomearquivo;
 
 // Configura o middleware body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +24,7 @@ connection.connect(function(err) {
 });
 
 // Cria uma rota para receber os dados do formulário
-app.post('/enviar-dados',function(req, res) {
+app.post('/enviar-dados', function(req, res) {
   const nome = req.body.nome;
   const matricula = req.body.matricula;
   const cpf = req.body.cpf;
@@ -48,35 +33,12 @@ app.post('/enviar-dados',function(req, res) {
   const curso = req.body.curso;
   const turma = req.body.turma;
   const msg = req.body.msg;
-  const receberEmail = req.body.receberEmail;
-
-  if(receberEmail == 'sim'){
-    transport.sendMail({
-      from: 'Sistema de Atestados <jfernandesbot@hotmail.com>',
-      to: `${email}`,
-      subject: 'Confirmação de recebimento de atestado',
-      text: `Seu atestado foi recebido com sucesso!
-      Nome: ${nome}
-      Matrícula: ${matricula}
-      CPF: ${cpf}
-      Telefone: ${telefone}
-      Curso: ${curso}
-      Turma: ${turma}
-      Informações: ${msg}`
-    })
-    .then(() => console.log('Email enviado com sucesso'))
-    .catch((err) => console.log(err));
-  }
-
-  data = new Date();
-  const horario = data.toLocaleString();
 
   // Insere os dados no banco de dados
-  const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, horario, informacoes, arquivo, arquivocom) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-  connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, horario, msg, nomearquivo, nomearquivocompleto], function(err, result) {
+  const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, informacoes) VALUES (?,?,?,?,?,?,?,?)";
+  connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, msg], function(err, result) {
     if (err) throw err;
     console.log('Dados inseridos com sucesso!');
-    //res.send('Dados inseridos com sucesso!');
     res.writeHead(302, {
       'Location': 'https://atestados.vercel.app/'
     });
