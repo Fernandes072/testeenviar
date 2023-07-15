@@ -47,7 +47,8 @@ app.post('/enviar-dados', function(req, res) {
   const turma = req.body.turma;
   const msg = req.body.msg;
   const receberEmail = req.body.receberEmail;
-  console.log(receberEmail)
+  const arquivo = req.body.arquivo;
+  console.log(arquivo)
 
   if(receberEmail == 'sim'){
     transport.sendMail({
