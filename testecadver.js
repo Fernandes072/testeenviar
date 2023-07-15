@@ -76,7 +76,7 @@ app.post('/enviar-dados', function(req, res) {
     console.log('Dados inseridos com sucesso!');
     //res.send('Dados inseridos com sucesso!');
     res.writeHead(302, {
-      'Location': 'http://127.0.0.1:5500/index.html'
+      'Location': 'https://atestados.vercel.app/'
     });
     res.end();
   });
