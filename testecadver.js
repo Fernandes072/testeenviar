@@ -1,7 +1,20 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const path = require('path');
+const nodemailer = require('nodemailer');
 const port =  3001; // obter a porta do Vercel ou usar a porta 3000
+
+const transport = nodemailer.createTransport({
+  host: 'smtp.office365.com',
+  port: 587,
+  secure: false,
+  auth: {
+      user: 'jfernandesbot@hotmail.com',
+      pass: '28092004bot',
+  }
+});
 
 const app = express();
 
