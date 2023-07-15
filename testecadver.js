@@ -68,9 +68,12 @@ app.post('/enviar-dados', function(req, res) {
     .catch((err) => console.log(err));
   }
 
+  data = new Date();
+  const horario = data.toLocaleString();
+
   // Insere os dados no banco de dados
-  const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, informacoes) VALUES (?,?,?,?,?,?,?,?)";
-  connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, msg], function(err, result) {
+  const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, horario, informacoes) VALUES (?,?,?,?,?,?,?,?,?)";
+  connection.query(sql, [nome, matricula, cpf, email, telefone, curso, turma, horario, msg], function(err, result) {
     if (err) throw err;
     console.log('Dados inseridos com sucesso!');
     res.writeHead(302, {
