@@ -46,6 +46,25 @@ app.post('/enviar-dados', function(req, res) {
   const curso = req.body.curso;
   const turma = req.body.turma;
   const msg = req.body.msg;
+  const receberEmail = req.body.receberEmail;
+
+  if(receberEmail == 'sim'){
+    transport.sendMail({
+      from: 'Sistema de Atestados <jfernandesbot@hotmail.com>',
+      to: `${email}`,
+      subject: 'Confirmação de recebimento de atestado',
+      text: `Seu atestado foi recebido com sucesso!
+      Nome: ${nome}
+      Matrícula: ${matricula}
+      CPF: ${cpf}
+      Telefone: ${telefone}
+      Curso: ${curso}
+      Turma: ${turma}
+      Informações: ${msg}`
+    })
+    .then(() => console.log('Email enviado com sucesso'))
+    .catch((err) => console.log(err));
+  }
 
   // Insere os dados no banco de dados
   const sql = "INSERT INTO dados (nome, matricula, cpf, email, telefone, curso, turma, informacoes) VALUES (?,?,?,?,?,?,?,?)";
